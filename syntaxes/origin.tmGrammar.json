@@ -1,0 +1,298 @@
+{
+  "scopeName": "source.origin",
+  "name": "Origin",
+  "fileTypes": ["or"],
+  "patterns": [
+    {
+      "comment": "Whitespace",
+      "include": "#whitespace"
+    },
+    {
+      "comment": "Comments",
+      "include": "#comment"
+    },
+    {
+      "comment": "Block comments",
+      "include": "#block-comment"
+    },
+    {
+      "comment": "Py blocks",
+      "include": "#py-block"
+    },
+    {
+      "comment": "Rust blocks",
+      "include": "#rust-block"
+    },
+    {
+      "comment": "Hardware primitive calls",
+      "include": "#hardware-primitive"
+    },
+    {
+      "comment": "Strings",
+      "include": "#string"
+    },
+    {
+      "comment": "F-strings",
+      "include": "#fstring"
+    },
+    {
+      "comment": "Numbers",
+      "include": "#number"
+    },
+    {
+      "comment": "Keywords",
+      "include": "#keyword"
+    },
+    {
+      "comment": "Operators",
+      "include": "#operator"
+    },
+    {
+      "comment": "Identifiers",
+      "include": "#identifier"
+    },
+    {
+      "comment": "Brackets and delimiters",
+      "include": "#brackets"
+    }
+  ],
+  "repository": {
+    "whitespace": {
+      "patterns": [
+        {
+          "name": "text",
+          "match": "[ \\t]+"
+        }
+      ]
+    },
+    "comment": {
+      "name": "comment.line.number-sign.origin",
+      "match": "#.*$"
+    },
+    "block-comment": {
+      "name": "comment.block.origin",
+      "begin": "/\\*",
+      "end": "\\*/"
+    },
+    "py-block": {
+      "name": "meta.block.py.origin",
+      "begin": "\\bpy\\s*\\{",
+      "end": "\\}",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.origin"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "keyword.control.origin"
+        }
+      },
+      "patterns": [
+        {
+          "include": "source.python#embedded"
+        }
+      ]
+    },
+    "rust-block": {
+      "name": "meta.block.rust.origin",
+      "begin": "\\brust\\s*\\{",
+      "end": "\\}",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.origin"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "keyword.control.origin"
+        }
+      },
+      "patterns": [
+        {
+          "include": "source.rust#embedded"
+        }
+      ]
+    },
+    "hardware-primitive": {
+      "name": "support.function.hardware.origin",
+      "match": "\\b(i2c|spi|uart)\\.[a-zA-Z_][a-zA-Z0-9_]*"
+    },
+    "string": {
+      "name": "string.quoted.origin",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.origin",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "single-quoted-string": {
+      "name": "string.quoted.single.origin",
+      "begin": "'",
+      "end": "'",
+      "patterns": [
+        {
+          "name": "constant.character.escape.origin",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "fstring": {
+      "name": "string.interpolated.origin",
+      "begin": "[fF]\"",
+      "end": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "string.interpolated.origin"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "string.interpolated.origin"
+        }
+      },
+      "patterns": [
+        {
+          "name": "string.interpolated.origin",
+          "match": "\\{.*?\\}"
+        },
+        {
+          "name": "constant.character.escape.origin",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "fstring-single": {
+      "name": "string.interpolated.single.origin",
+      "begin": "[fF]'",
+      "end": "'",
+      "beginCaptures": {
+        "0": {
+          "name": "string.interpolated.origin"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "string.interpolated.origin"
+        }
+      },
+      "patterns": [
+        {
+          "name": "string.interpolated.origin",
+          "match": "\\{.*?\\}"
+        },
+        {
+          "name": "constant.character.escape.origin",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "number": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.origin",
+          "match": "\\b\\d+\\.\\d+([eE][+-]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.hex.origin",
+          "match": "\\b0[xX][0-9a-fA-F]+\\b"
+        },
+        {
+          "name": "constant.numeric.decimal.origin",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "keyword": {
+      "patterns": [
+        {
+          "name": "keyword.control.origin",
+          "match": "\\b(let|const|def|func|class|return|break|continue|pass|skip|import|from|as|try|except|else|elif|if|while|for|to|with|return|execute|run|parallel|open|py|rust|set|global)\\b"
+        },
+        {
+          "name": "keyword.operator.origin",
+          "match": "\\b(and|or|not|in|is|true|false|none|none)\\b"
+        },
+        {
+          "name": "keyword.type.origin",
+          "match": "\\b(int|float|str|bool|list|any|self)\\b"
+        },
+        {
+          "name": "keyword.builtin.origin",
+          "match": "\\b(print|input|len|sqrt|rand_num|range|abs|floor|ceil|write|append|read|call|get_addr|addr|sizeof|peek|poke|pack|unpack|syscall|call_addr|address|accel|gyro|temp|pi)\\b"
+        },
+        {
+          "name": "keyword.hardware.origin",
+          "match": "\\b(mpu6050|mpu9250|mpu6500|mpu9255|mpu6000|mpu9150|mpu9256|mpu9257|mpu9258|mpu9259)\\b"
+        }
+      ]
+    },
+    "operator": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.origin",
+          "match": "\\+\\=|\\-\\=|\\*\\=|\\/\\=|\\%\\=|\\*\\*\\=|\\/\\/\\=|\\&\\=|\\|\\=|\\^\\=|\\<\\<\\=|\\>\\>\\="
+        },
+        {
+          "name": "keyword.operator.assignment.simple.origin",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.increment.origin",
+          "match": "\\+\\+|\\-\\-"
+        },
+        {
+          "name": "keyword.operator.comparison.origin",
+          "match": "===|!==|==|!=|<=|>=|<>|<|>"
+        },
+        {
+          "name": "keyword.operator.logical.origin",
+          "match": "\\&\\&|\\|\\|"
+        },
+        {
+          "name": "keyword.operator.arithmetic.origin",
+          "match": "\\+|\\-|\\*\\*|\\*|\\/|\\/\\/|\\%|\\&|\\|\\^|\\~|\\<\\<|\\>\\>"
+        },
+        {
+          "name": "keyword.operator.special.origin",
+          "match": "\\?\\?|\\-\\>|\\=\\>|\\<\\>\\=|\\:\\:"
+        },
+        {
+          "name": "keyword.operator.pipeline.origin",
+          "match": "\\-\\>"
+        },
+        {
+          "name": "keyword.operator.delimiter.origin",
+          "match": ":|,|\\.|;|\\?"
+        }
+      ]
+    },
+    "brackets": {
+      "patterns": [
+        {
+          "name": "punctuation.bracket.curly.origin",
+          "match": "[\\{\\}]"
+        },
+        {
+          "name": "punctuation.bracket.square.origin",
+          "match": "[\\[\\]]"
+        },
+        {
+          "name": "punctuation.bracket.parenthesis.origin",
+          "match": "[\\(\\)]"
+        },
+        {
+          "name": "punctuation.delimiter.angle.origin",
+          "match": "[\\<\\>]"
+        }
+      ]
+    },
+    "identifier": {
+      "name": "variable.other.origin",
+      "match": "[a-zA-Z_][a-zA-Z0-9_]*"
+    }
+  }
+}

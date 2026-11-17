@@ -1,0 +1,53 @@
+{
+  "name": "origin-language",
+  "displayName": "Origin Language",
+  "description": "Syntax highlighting and language support for the Origin programming language (.or files)",
+  "version": "0.1.0",
+  "publisher": "boblio-max",
+  "author": {
+    "name": "Nikhil Mahankali",
+    "url": "https://github.com/boblio-max"
+  },
+  "license": "MIT",
+  "categories": ["Programming Languages"],
+  "tags": ["origin", "language", "syntax", "programming"],
+  "keywords": ["origin", "origin-lang", "origin-or"],
+  "galleryBanner": {
+    "color": "#4A90E2",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/boblio-max/vscode-origin.git"
+  },
+  "homepage": "https://github.com/boblio-max/vscode-origin",
+  "bugs": {
+    "url": "https://github.com/boblio-max/vscode-origin/issues"
+  },
+  "activationEvents": ["onLanguage:origin"],
+  "contributes": {
+    "languages": [
+      {
+        "id": "origin",
+        "aliases": ["Origin", "origin"],
+        "extensions": [".or"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "origin",
+        "scopeName": "source.origin",
+        "path": "./syntaxes/origin.tmGrammar.json"
+      }
+    ]
+  },
+  "scripts": {
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {},
+  "engines": {
+    "vscode": "^1.74.0"
+  }
+}
