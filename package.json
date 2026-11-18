@@ -1,8 +1,8 @@
 {
   "name": "origin-language",
   "displayName": "Origin Language",
-  "description": "Syntax highlighting and language support for the Origin programming language (.or files)",
-  "version": "0.1.0",
+  "description": "Syntax highlighting, running, and language support for the Origin programming language (.or files)",
+  "version": "0.2.0",
   "publisher": "boblio-max",
   "author": {
     "name": "Nikhil Mahankali",
@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "categories": ["Programming Languages"],
-  "tags": ["origin", "language", "syntax", "programming"],
+  "tags": ["origin", "language", "syntax", "programming", "run"],
   "keywords": ["origin", "origin-lang", "origin-or"],
   "galleryBanner": {
     "color": "#4A90E2",
@@ -24,7 +24,11 @@
   "bugs": {
     "url": "https://github.com/boblio-max/vscode-origin/issues"
   },
-  "activationEvents": ["onLanguage:origin"],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:origin",
+    "onCommand:origin.runFile"
+  ],
   "contributes": {
     "languages": [
       {
@@ -40,13 +44,69 @@
         "scopeName": "source.origin",
         "path": "./syntaxes/origin.tmGrammar.json"
       }
-    ]
+    ],
+    "commands": [
+      {
+        "command": "origin.runFile",
+        "title": "Origin: Run File",
+        "category": "Origin",
+        "icon": "$(play)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "origin.runFile",
+          "when": "editorLangId == origin",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "origin.runFile",
+        "key": "ctrl+f5",
+        "when": "editorLangId == origin && !debuggerIsRunning"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Origin configuration",
+      "properties": {
+        "origin.runnerCommand": {
+          "type": "string",
+          "default": "origin",
+          "description": "Command used to run an Origin file (e.g. `origin` or `python`)."
+        },
+        "origin.runnerArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Extra arguments passed to the runner command before the file path."
+        },
+        "origin.runInTerminal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run Origin files in an integrated terminal (supports interactive `input`). When false, output is captured in the Origin output panel."
+        }
+      }
+    }
   },
   "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
     "package": "vsce package",
     "publish": "vsce publish"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "^20.x",
+    "typescript": "^5.x",
+    "@vscode/vsce": "^2.x"
+  },
   "engines": {
     "vscode": "^1.74.0"
   }

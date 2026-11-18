@@ -1,12 +1,13 @@
 # Origin Language VS Code Extension
 
-Syntax highlighting and language support for the Origin programming language.
+Syntax highlighting, running, and language support for the Origin programming language (`.or` files).
 
 ## Features
 
 - **Syntax highlighting** for `.or` files using a TextMate grammar
-- **Language configuration** with comments, brackets, and indentation rules
-- **File association** for `.or` extension
+- **Run Origin files** — execute the active `.or` file just like the Python extension runs `.py` files
+- **Language configuration** with comments, brackets, indentation, and auto-closing pairs
+- **File association** for the `.or` extension
 
 ## About Origin
 
@@ -49,7 +50,43 @@ npm run compile
 npm run package
 
 # Install the generated .vsix
-code --install-require-checks origin-language-0.1.0.vsix
+code --install-require-checks origin-language-0.2.0.vsix
+```
+
+## Usage
+
+Open any `.or` file and run it:
+
+- Click the **▶ Run Origin** play button in the editor title bar, or
+- Open the Command Palette (`Ctrl+Shift+P`) → **Origin: Run File**, or
+- Press **Ctrl+F5**
+
+Output appears in an integrated terminal by default (so interactive `input` works). You can switch to captured output in the **Origin** output panel via settings.
+
+## Settings
+
+| Setting | Default | Description |
+|---|---|---|
+| `origin.runnerCommand` | `origin` | Command used to run an Origin file (e.g. `origin` or `python`). |
+| `origin.runnerArgs` | `[]` | Extra arguments passed to the runner before the file path. |
+| `origin.runInTerminal` | `true` | Run in an integrated terminal (`true`) or capture output in the Origin panel (`false`). |
+
+### Using with origin-dev
+
+If you're developing Origin itself and want to run files from `origin-dev/ORIGIN_CODE/runners/runner.py`:
+
+```json
+{
+  "origin.runnerCommand": "python",
+  "origin.runnerArgs": ["<absolute/path/to>/origin-dev/ORIGIN_CODE/runners/runner.py"]
+}
+```
+
+Or install the `origin-or` pip package so the `origin` CLI is on your `PATH`:
+
+```bash
+pip install origin-or
+# then run files with just: origin <file.or>
 ```
 
 ## Development

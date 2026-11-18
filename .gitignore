@@ -1,6 +1,7 @@
 .vscode/
 *.vsix
 *.tsbuildinfo
+package-lock.json
 node_modules/
 out/
 dist/
